@@ -399,17 +399,25 @@ export default function LeadsList() {
         {/* Table - BIGGER with compact spacing */}
         <Grow in timeout={900}>
           <Card>
-            <TableContainer>
+            <TableContainer sx={{ overflowX: 'auto' }}>
               <Table stickyHeader sx={{ tableLayout: 'auto' }}>
                 <TableHead>
                   <TableRow>
-                    {Object.keys(columnLabels).map((column) => (
+                    {Object.keys(columnLabels).map((column, index) => (
                       <TableCell 
                         key={column}
                         sx={{
                           py: 1.5,
                           px: 2,
                           whiteSpace: 'nowrap',
+                          // Sticky first column (ID) on mobile only
+                          ...(index === 0 && {
+                            position: { xs: 'sticky', md: 'static' },
+                            left: { xs: 0, md: 'auto' },
+                            zIndex: { xs: 3, md: 'auto' },
+                            backgroundColor: { xs: '#ffffff', md: 'transparent' },  // Solid white on mobile
+                            boxShadow: { xs: '2px 0 4px rgba(0,0,0,0.1)', md: 'none' },
+                          }),
                         }}
                       >
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
@@ -516,7 +524,20 @@ export default function LeadsList() {
                           },
                         }}
                       >
-                        <TableCell sx={{ py: 1.5, px: 2 }}>
+                        <TableCell sx={{ 
+                          py: 1.5, 
+                          px: 2,
+                          // Sticky first column (ID) on mobile only
+                          position: { xs: 'sticky', md: 'static' },
+                          left: { xs: 0, md: 'auto' },
+                          zIndex: { xs: 2, md: 'auto' },
+                          backgroundColor: { xs: '#ffffff', md: 'transparent' },  // Solid white on mobile
+                          boxShadow: { xs: '2px 0 4px rgba(0,0,0,0.1)', md: 'none' },
+                          // Solid background on hover too
+                          'tr:hover &': {
+                            backgroundColor: { xs: '#f0f9ff', md: 'transparent' },  // Light blue solid on hover
+                          },
+                        }}>
                           <Chip
                             label={`#${lead.id}`}
                             size="small"
