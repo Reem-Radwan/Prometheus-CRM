@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   Box,
   Card,
@@ -97,7 +97,18 @@ export default function LeadsList() {
     setLeads(loadedLeads);
   };
 
-  const getColumnValue = (lead, column) => {
+  const getLeadSource = useCallback((sourceId) => {
+    const source = DataService.getLeadSourceById(sourceId);
+    return source ? source.name : '-';
+  }, []);
+
+  const getPartnerName = useCallback((lead) => {
+    if (!lead.partner_id) return '-';
+    const partner = DataService.getPartnerById(lead.partner_id);
+    return partner ? partner.name : '-';
+  }, []);
+
+  const getColumnValue = useCallback((lead, column) => {
     switch (column) {
       case 'id':
         return `#${lead.id}`;
@@ -116,18 +127,7 @@ export default function LeadsList() {
       default:
         return '';
     }
-  };
-
-  const getLeadSource = (sourceId) => {
-    const source = DataService.getLeadSourceById(sourceId);
-    return source ? source.name : '-';
-  };
-
-  const getPartnerName = (lead) => {
-    if (!lead.partner_id) return '-';
-    const partner = DataService.getPartnerById(lead.partner_id);
-    return partner ? partner.name : '-';
-  };
+  }, [getLeadSource, getPartnerName]);
 
   // Use useMemo to compute filtered and sorted leads
   const filteredLeads = useMemo(() => {
@@ -163,9 +163,9 @@ export default function LeadsList() {
     }
 
     return filtered;
-  }, [leads, filters, sortColumn, sortDirection]);
+  }, [leads, filters, sortColumn, sortDirection, getColumnValue]);
 
-  const getUniqueColumnValues = (column) => {
+  const getUniqueColumnValues = useCallback((column) => {
     let dataToFilter = [...leads];
     
     Object.keys(filters).forEach((col) => {
@@ -183,7 +183,7 @@ export default function LeadsList() {
       values.add(value);
     });
     return Array.from(values).sort();
-  };
+  }, [leads, filters, getColumnValue]);
 
   const handleSortClick = (column) => {
     if (sortColumn === column) {
@@ -952,7 +952,7 @@ export default function LeadsList() {
           PaperProps={{
             sx: { 
               borderRadius: '16px',
-              boxShadow: '0 20px 60px rgba(239, 68, 68, 0.3)',
+              boxShadow: '0 20px 60px rgba(239, 68, 68, 0.1)',
             },
           }}
         >
