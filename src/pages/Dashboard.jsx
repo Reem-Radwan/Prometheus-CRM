@@ -14,7 +14,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ mt: { xs: 4, sm: 5, md: 0 } }}>
+    <Box>
       <PageHeader
         title="Welcome to Prometheus CRM"
         subtitle="Your enterprise real estate management system"

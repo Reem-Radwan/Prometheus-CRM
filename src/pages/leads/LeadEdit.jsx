@@ -92,12 +92,12 @@ export default function LeadEdit() {
     const source = DataService.getLeadSourceById(lead.source_id);
     setSelectedSource(source);
 
-    // Prepare form values
+    // Prepare form values - CONVERT national_id to string
     const formValues = {
       first_name: lead.first_name || '',
       last_name: lead.last_name || '',
       phone: lead.phone || '',
-      national_id: lead.national_id || '',
+      national_id: lead.national_id ? String(lead.national_id) : '', // Convert to string
       email: lead.email || '',
       source_id: lead.source_id || '',
       campaign_id: lead.campaign_id || '',
@@ -152,8 +152,8 @@ export default function LeadEdit() {
 
   const validateNationalIdUnique = async (nationalId) => {
     if (!nationalId) return true;
-    // Allow same national ID if it's the current lead's national ID
-    if (leadData && leadData.national_id === nationalId) return true;
+    // Allow same national ID if it's the current lead's national ID (convert both to string for comparison)
+    if (leadData && String(leadData.national_id) === String(nationalId)) return true;
     
     const isUnique = DataService.isNationalIdUnique(nationalId);
     if (!isUnique) {
@@ -224,7 +224,7 @@ export default function LeadEdit() {
   }
 
   return (
-    <Box sx={{ mt: { xs: 4, sm: 5, md: 0 } }}>
+    <Box>
       <PageHeader
         title="Edit Lead"
         subtitle="Update lead information"
@@ -233,6 +233,7 @@ export default function LeadEdit() {
           { label: 'Leads', href: '/leads' },
           { label: 'Edit', active: true },
         ]}
+        compact={true}
       />
 
       <Card sx={{ maxWidth: '1000px', mx: 'auto' }}>

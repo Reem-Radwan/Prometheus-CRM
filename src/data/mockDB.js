@@ -91,5 +91,61 @@ export const MOCK_DB = {
       partner_id: 101,
       created_at: "2026-02-14"
     }
+    ,
+    { 
+      id: 4, 
+      first_name: "Reem", 
+      last_name: "Radwan", 
+      phone: "01288888888", 
+      national_id: 30302272101826,
+      email: "reem.slama272@gmail.com",
+      job_title: "Front-End Developer",
+      source_id: 5,
+      source_system_code: "broker",
+      partner_id: 101,
+      created_at: "2026-02-14"
+    }
+    ,
+    { 
+      id: 5, 
+      first_name: "Ali", 
+      last_name: "Mostafa", 
+      phone: "01244444444", 
+      national_id: null,
+      email: null,
+      job_title: "Manager",
+      source_id: 5,
+      source_system_code: "broker",
+      partner_id: 101,
+      created_at: "2026-02-14"
+    }
+    ,
+    { 
+      id: 6, 
+      first_name: "Sarah", 
+      last_name: "Ibrahim", 
+      phone: "01555555555", 
+      national_id: null,
+      email: null,
+      job_title: "Manager",
+      source_id: 5,
+      source_system_code: "broker",
+      partner_id: 101,
+      created_at: "2026-02-14"
+    }
+    ,
+    { 
+      id: 7, 
+      first_name: "Mohamed", 
+      last_name: "Omar", 
+      phone: "01233333333", 
+      national_id: 30302272101823,
+      email: null,
+      job_title: "Manager",
+      source_id: 5,
+      source_system_code: "broker",
+      partner_id: 101,
+      created_at: "2026-02-14"
+    }
   ]
 };

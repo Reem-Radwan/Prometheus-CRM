@@ -7,11 +7,12 @@ export default function PageHeader({
   title, 
   subtitle, 
   breadcrumbs = [], 
-  actions 
+  actions,
+  compact = false
 }) {
   const navigate = useNavigate();
 
-  return (
+  const headerContent = (
     <Box 
       sx={{ 
         mb: 4,
@@ -55,6 +56,7 @@ export default function PageHeader({
         justifyContent: 'space-between', 
         alignItems: 'flex-start',
         gap: 3,
+        flexDirection: { xs: 'column', sm: 'row' },
       }}>
         <Box sx={{ flex: 1 }}>
           <Typography 
@@ -89,6 +91,7 @@ export default function PageHeader({
             display: 'flex', 
             gap: 2,
             flexShrink: 0,
+            width: { xs: '100%', sm: 'auto' },
           }}>
             {actions}
           </Box>
@@ -96,4 +99,16 @@ export default function PageHeader({
       </Box>
     </Box>
   );
+
+  // If compact, wrap in container with same width as form (1000px)
+  if (compact) {
+    return (
+      <Box sx={{ maxWidth: '1000px', mx: 'auto', width: '100%' }}>
+        {headerContent}
+      </Box>
+    );
+  }
+
+  // Otherwise, return header content directly (full width)
+  return headerContent;
 }

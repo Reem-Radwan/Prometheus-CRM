@@ -167,7 +167,7 @@ export default function LeadCreate() {
   };
 
   return (
-    <Box sx={{ mt: { xs: 4, sm: 5, md: 0 } }}>
+    <Box>
       <PageHeader
         title="Create New Lead"
         subtitle="Add a new potential customer to your CRM system"
@@ -176,6 +176,7 @@ export default function LeadCreate() {
           { label: 'Leads', href: '/leads' },
           { label: 'Create', active: true },
         ]}
+        compact={true}
       />
 
       <Card sx={{ maxWidth: '1000px', mx: 'auto', position: 'relative' }}>
@@ -243,6 +244,7 @@ export default function LeadCreate() {
                     )}
                   />
                 </Grid>
+                
                 <Grid item xs={12} md={6}>
                   <Controller
                     name="phone"
@@ -305,7 +307,7 @@ export default function LeadCreate() {
                     )}
                   />
                 </Grid>
-                 {/* Job Title */}
+                
                 <Grid item xs={12} sm={6}>
                   <Controller
                     name="job_title"
@@ -322,7 +324,7 @@ export default function LeadCreate() {
                     )}
                   />
                 </Grid>
-                                          {/* Notes */}
+                
                 <Grid item xs={12} md={6}>
                   <Controller
                     name="notes"
@@ -642,19 +644,14 @@ export default function LeadCreate() {
                           )}
                         />
                       </Grid>
-                      
                     </>
-                    
                   )}
-                  
                 </Grid>
-                
               </Paper>
-              
             )}
 
             {/* Action Buttons */}
-            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end', marginTop : 2 }}>
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end', marginTop: 2 }}>
               <Button
                 variant="outlined"
                 size="large"
