@@ -40,7 +40,7 @@ import {
   ChevronRight as ChevronRightIcon,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { DataService } from '../../data/dataService';
+import { DataService } from '../../data/mod1dataService';
 import PageHeader from '../../components/shared/PageHeader';
 
 // Transition component for dialogs - Zoom effect
