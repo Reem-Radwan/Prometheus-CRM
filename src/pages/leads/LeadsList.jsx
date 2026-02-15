@@ -156,9 +156,9 @@ export default function LeadsList() {
                 <TableCell>Name</TableCell>
                 <TableCell>Phone</TableCell>
                 <TableCell>National ID</TableCell>
-                <TableCell>Source</TableCell>
+                <TableCell>Source Name</TableCell>
                 <TableCell>Partner</TableCell>
-                <TableCell>Date</TableCell>
+                <TableCell>Created Date</TableCell>
                 <TableCell align="center">Actions</TableCell>
               </TableRow>
             </TableHead>
