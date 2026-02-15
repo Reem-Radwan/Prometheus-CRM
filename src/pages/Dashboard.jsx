@@ -6,7 +6,6 @@ import {
   Campaign as CampaignIcon,
   LocationOn as LocationOnIcon,
   Groups as GroupsIcon,
-  TrendingUp as TrendingUpIcon,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import PageHeader from '../components/shared/PageHeader';

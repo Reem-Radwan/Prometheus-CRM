@@ -15,7 +15,6 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
-  Divider,
   Paper,
   Snackbar,
 } from '@mui/material';
@@ -46,7 +45,6 @@ export default function LeadCreate() {
     watch,
     setError,
     clearErrors,
-    reset,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(validationSchema),

@@ -1,13 +1,10 @@
 import React from 'react';
-import { Box, useTheme, useMediaQuery } from '@mui/material';
+import { Box } from '@mui/material';
 import Sidebar from './Sidebar';
 
 const drawerWidth = 260;
 
 export default function Layout({ children }) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
   return (
     <Box sx={{ 
       display: 'flex', 

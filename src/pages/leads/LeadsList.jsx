@@ -15,7 +15,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Alert,
   Snackbar,
@@ -25,7 +24,6 @@ import {
   Add as AddIcon,
   Visibility as ViewIcon,
   Edit as EditIcon,
-  Delete as DeleteIcon,
   People as PeopleIcon,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -35,10 +33,8 @@ import PageHeader from '../../components/shared/PageHeader';
 export default function LeadsList() {
   const navigate = useNavigate();
   const [leads, setLeads] = useState([]);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [viewDialogOpen, setViewDialogOpen] = useState(false);
   const [selectedLead, setSelectedLead] = useState(null);
-  const [leadToDelete, setLeadToDelete] = useState(null);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
   useEffect(() => {
@@ -68,30 +64,6 @@ export default function LeadsList() {
 
  const handleEdit = (lead) => {
     navigate(`/leads/edit/${lead.id}`);
-  };
-
-  const handleDeleteClick = (lead) => {
-    setLeadToDelete(lead);
-    setDeleteDialogOpen(true);
-  };
-
-  const handleDeleteConfirm = () => {
-    if (leadToDelete) {
-      DataService.deleteLead(leadToDelete.id);
-      loadLeads();
-      setSnackbar({
-        open: true,
-        message: `Lead "${leadToDelete.first_name} ${leadToDelete.last_name}" deleted successfully`,
-        severity: 'success'
-      });
-    }
-    setDeleteDialogOpen(false);
-    setLeadToDelete(null);
-  };
-
-  const handleDeleteCancel = () => {
-    setDeleteDialogOpen(false);
-    setLeadToDelete(null);
   };
 
   const handleCloseSnackbar = () => {
