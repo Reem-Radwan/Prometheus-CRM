@@ -16,7 +16,6 @@ import {
   FormLabel,
   FormHelperText,
   Paper,
-  Snackbar,
 } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -24,13 +23,13 @@ import { useNavigate } from 'react-router-dom';
 import { DataService } from '../../data/mod1dataService';
 import { createLeadValidationSchema, buildLeadPayload } from '../../utils/validation';
 import PageHeader from '../../components/shared/PageHeader';
+import { showSuccessToast } from '../../utils/sweetalert';
 
 export default function LeadCreate() {
   const navigate = useNavigate();
   const [selectedSource, setSelectedSource] = useState(null);
   const [validationSchema, setValidationSchema] = useState(createLeadValidationSchema(''));
   const [submitError, setSubmitError] = useState('');
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
   const leadSources = DataService.getLeadSources();
   const campaigns = DataService.getCampaigns();
@@ -134,11 +133,7 @@ export default function LeadCreate() {
       const newLead = DataService.createLead(payload);
       console.log('Created Lead:', newLead);
 
-      setSnackbar({
-        open: true,
-        message: 'Lead created successfully!',
-        severity: 'success'
-      });
+      showSuccessToast('Lead created successfully!');
       
       setTimeout(() => {
         navigate('/leads');
@@ -160,10 +155,6 @@ export default function LeadCreate() {
       return allPartners;
     }
     return [];
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbar({ ...snackbar, open: false });
   };
 
   return (
@@ -677,22 +668,6 @@ export default function LeadCreate() {
           </form>
         </CardContent>
       </Card>
-
-      {/* Snackbar for notifications */}
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={4000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert 
-          onClose={handleCloseSnackbar} 
-          severity={snackbar.severity}
-          sx={{ width: '100%' }}
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
     </Box>
   );
 }

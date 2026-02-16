@@ -16,8 +16,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Alert,
-  Snackbar,
   Typography,
   Popover,
   TextField,
@@ -25,7 +23,6 @@ import {
   FormControlLabel,
   Fade,
   Grow,
-  Slide,
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -42,6 +39,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { DataService } from '../../data/mod1dataService';
 import PageHeader from '../../components/shared/PageHeader';
+import { showDeleteConfirmation, showSuccessToast, showErrorToast } from '../../utils/sweetalert';
 
 // Transition component for dialogs - Zoom effect
 const DialogTransition = React.forwardRef(function Transition(props, ref) {
@@ -52,9 +50,7 @@ export default function LeadsList() {
   const navigate = useNavigate();
   const [leads, setLeads] = useState([]);
   const [viewDialogOpen, setViewDialogOpen] = useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedLead, setSelectedLead] = useState(null);
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
   
   // Pagination
   const [page, setPage] = useState(0);
@@ -245,37 +241,22 @@ export default function LeadsList() {
     navigate(`/leads/edit/${lead.id}`);
   };
 
-  const handleDeleteClick = (lead) => {
-    setSelectedLead(lead);
-    setDeleteDialogOpen(true);
-  };
-
-  const handleDeleteConfirm = () => {
-    if (selectedLead) {
-      const success = DataService.deleteLead(selectedLead.id);
+  const handleDeleteClick = async (lead) => {
+    const result = await showDeleteConfirmation(
+      'Delete Lead?',
+      `Are you sure you want to delete ${lead.first_name} ${lead.last_name}?`
+    );
+    
+    if (result.isConfirmed) {
+      const success = DataService.deleteLead(lead.id);
       if (success) {
         // Immediately update local state
-        setLeads(prevLeads => prevLeads.filter(lead => lead.id !== selectedLead.id));
-        
-        setSnackbar({
-          open: true,
-          message: 'Lead deleted successfully!',
-          severity: 'success',
-        });
+        setLeads(prevLeads => prevLeads.filter(l => l.id !== lead.id));
+        showSuccessToast('Lead deleted successfully!');
       } else {
-        setSnackbar({
-          open: true,
-          message: 'Failed to delete lead',
-          severity: 'error',
-        });
+        showErrorToast('Failed to delete lead');
       }
     }
-    setDeleteDialogOpen(false);
-    setSelectedLead(null);
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbar({ ...snackbar, open: false });
   };
 
   const handlePageChange = (newPage) => {
@@ -961,99 +942,6 @@ export default function LeadsList() {
             </Button>
           </DialogActions>
         </Dialog>
-
-        {/* Delete Confirmation Dialog with Smooth Animation */}
-        <Dialog
-          open={deleteDialogOpen}
-          onClose={() => setDeleteDialogOpen(false)}
-          maxWidth="xs"
-          fullWidth
-          TransitionComponent={DialogTransition}
-          TransitionProps={{ timeout: 400 }}
-          PaperProps={{
-            sx: { 
-              borderRadius: '16px',
-              boxShadow: '0 20px 60px rgba(239, 68, 68, 0.1)',
-            },
-          }}
-        >
-          <DialogTitle sx={{ fontWeight: 700, fontSize: '20px' }}>Confirm Delete</DialogTitle>
-          <DialogContent>
-            <Typography variant="body1" color="text.secondary">
-              Are you sure you want to delete this lead? This action cannot be undone.
-            </Typography>
-            {selectedLead && (
-              <Box
-                sx={{
-                  mt: 2,
-                  p: 2,
-                  backgroundColor: '#FEF2F2',
-                  borderRadius: '8px',
-                  border: '1px solid #FEE2E2',
-                }}
-              >
-                <Typography variant="body2" fontWeight={600}>
-                  {selectedLead.first_name} {selectedLead.last_name}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  {selectedLead.phone}
-                </Typography>
-              </Box>
-            )}
-          </DialogContent>
-          <DialogActions sx={{ p: 2.5, pt: 0 }}>
-            <Button
-              onClick={() => setDeleteDialogOpen(false)}
-              variant="outlined"
-              sx={{ 
-                minWidth: '100px',
-                transition: 'all 0.2s ease',
-                '&:hover': {
-                  transform: 'translateY(-2px)',
-                }
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleDeleteConfirm}
-              variant="contained"
-              sx={{
-                minWidth: '100px',
-                backgroundColor: '#EF4444',
-                transition: 'all 0.2s ease',
-                '&:hover': {
-                  backgroundColor: '#DC2626',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 4px 12px rgba(239, 68, 68, 0.4)',
-                },
-              }}
-            >
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        {/* Snackbar for notifications */}
-        <Snackbar
-          open={snackbar.open}
-          autoHideDuration={4000}
-          onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          TransitionComponent={Slide}
-          TransitionProps={{ direction: 'left' }}
-        >
-          <Alert 
-            onClose={handleCloseSnackbar} 
-            severity={snackbar.severity} 
-            sx={{ 
-              width: '100%',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
-            }}
-          >
-            {snackbar.message}
-          </Alert>
-        </Snackbar>
       </Box>
     </Fade>
   );

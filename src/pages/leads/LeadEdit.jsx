@@ -16,7 +16,6 @@ import {
   FormLabel,
   FormHelperText,
   Paper,
-  Snackbar,
 } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -24,6 +23,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { DataService } from '../../data/mod1dataService';
 import { createLeadValidationSchema, buildLeadPayload } from '../../utils/validation';
 import PageHeader from '../../components/shared/PageHeader';
+import { showSuccessToast, showErrorToast } from '../../utils/sweetalert';
 
 export default function LeadEdit() {
   const { id } = useParams();
@@ -31,7 +31,6 @@ export default function LeadEdit() {
   const [selectedSource, setSelectedSource] = useState(null);
   const [validationSchema, setValidationSchema] = useState(createLeadValidationSchema(''));
   const [submitError, setSubmitError] = useState('');
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
   const [leadData, setLeadData] = useState(null);
 
   const leadSources = DataService.getLeadSources();
@@ -79,11 +78,7 @@ export default function LeadEdit() {
   useEffect(() => {
     const lead = DataService.getLeadById(Number(id));
     if (!lead) {
-      setSnackbar({
-        open: true,
-        message: 'Lead not found',
-        severity: 'error'
-      });
+      showErrorToast('Lead not found');
       setTimeout(() => navigate('/leads'), 2000);
       return;
     }
@@ -183,11 +178,7 @@ export default function LeadEdit() {
 
       DataService.updateLead(Number(id), payload);
       
-      setSnackbar({
-        open: true,
-        message: 'Lead updated successfully!',
-        severity: 'success'
-      });
+      showSuccessToast('Lead updated successfully!');
       
       setTimeout(() => {
         navigate('/leads');
@@ -209,10 +200,6 @@ export default function LeadEdit() {
       return allPartners;
     }
     return [];
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbar({ ...snackbar, open: false });
   };
 
   if (!leadData) {
@@ -689,22 +676,6 @@ export default function LeadEdit() {
           </form>
         </CardContent>
       </Card>
-
-      {/* Snackbar for notifications */}
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={4000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert 
-          onClose={handleCloseSnackbar} 
-          severity={snackbar.severity}
-          sx={{ width: '100%' }}
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
     </Box>
   );
 }
