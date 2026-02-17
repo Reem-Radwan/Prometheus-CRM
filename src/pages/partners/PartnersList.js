@@ -20,6 +20,7 @@ import {
   Fade,
   Grow,
   Switch,
+  InputAdornment,
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -31,6 +32,8 @@ import {
   ArrowDownward as ArrowDownwardIcon,
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
+  Search as SearchIcon,
+  Close as CloseIcon,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { PartnersDataService } from '../../data/partnersDataService';
@@ -40,6 +43,9 @@ import { showDeleteConfirmation, showSuccessToast, showErrorToast } from '../../
 export default function PartnersList() {
   const navigate = useNavigate();
   const [partners, setPartners] = useState([]);
+
+  // Search
+  const [globalSearch, setGlobalSearch] = useState('');
 
   // Pagination
   const [page, setPage] = useState(0);
@@ -100,11 +106,26 @@ export default function PartnersList() {
 
   const filteredPartners = useMemo(() => {
     let filtered = [...partners];
+
+    // Column filters
     Object.keys(filters).forEach((col) => {
       if (filters[col].length > 0) {
         filtered = filtered.filter((p) => filters[col].includes(getColumnValue(p, col)));
       }
     });
+
+    // Global search — name, phone, or company
+    if (globalSearch.trim()) {
+      const q = globalSearch.trim().toLowerCase();
+      filtered = filtered.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          (p.phone || '').toLowerCase().includes(q) ||
+          (p.company_name || '').toLowerCase().includes(q)
+      );
+    }
+
+    // Sort
     if (sortColumn) {
       filtered.sort((a, b) => {
         const aVal = getColumnValue(a, sortColumn);
@@ -124,7 +145,7 @@ export default function PartnersList() {
       });
     }
     return filtered;
-  }, [partners, filters, sortColumn, sortDirection, getColumnValue]);
+  }, [partners, filters, globalSearch, sortColumn, sortDirection, getColumnValue]);
 
   const getUniqueColumnValues = useCallback(
     (column) => {
@@ -204,7 +225,7 @@ export default function PartnersList() {
   const paginatedPartners = filteredPartners.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   const totalPages = Math.ceil(filteredPartners.length / rowsPerPage);
 
-  useEffect(() => { setPage(0); }, [filters, sortColumn, sortDirection]);
+  useEffect(() => { setPage(0); }, [filters, sortColumn, sortDirection, globalSearch]);
 
   const filterOpen = Boolean(filterAnchorEl);
   const filteredColumnValues = currentFilterColumn
@@ -216,6 +237,8 @@ export default function PartnersList() {
   const brokerCount = partners.filter((p) => p.type === 'broker').length;
   const ambassadorCount = partners.filter((p) => p.type === 'ambassador').length;
   const activeCount = partners.filter((p) => p.contract_active).length;
+
+  const hasAnyFilter = globalSearch || Object.values(filters).flat().length > 0;
 
   return (
     <Fade in timeout={500}>
@@ -280,6 +303,51 @@ export default function PartnersList() {
           </Grow>
         </Box>
 
+        {/* Search Bar */}
+        <Grow in timeout={850}>
+          <Card sx={{ mb: 3, p: 2.5 }}>
+            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+              <TextField
+                fullWidth
+                size="small"
+                placeholder="Search by name, phone, or company…"
+                value={globalSearch}
+                onChange={(e) => setGlobalSearch(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
+                    </InputAdornment>
+                  ),
+                  endAdornment: globalSearch && (
+                    <InputAdornment position="end">
+                      <IconButton size="small" onClick={() => setGlobalSearch('')}>
+                        <CloseIcon sx={{ fontSize: 18 }} />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px' } }}
+              />
+              {hasAnyFilter && (
+                <Button
+                  size="small"
+                  variant="outlined"
+                  color="error"
+                  startIcon={<CloseIcon fontSize="small" />}
+                  onClick={() => {
+                    setGlobalSearch('');
+                    setFilters({ id: [], name: [], type: [], phone: [], company_name: [], commission: [], status: [] });
+                  }}
+                  sx={{ borderRadius: '10px', whiteSpace: 'nowrap', height: 40 }}
+                >
+                  Clear All
+                </Button>
+              )}
+            </Box>
+          </Card>
+        </Grow>
+
         {/* Table */}
         <Grow in timeout={1000}>
           <Card>
@@ -343,11 +411,11 @@ export default function PartnersList() {
                             No partners found
                           </Typography>
                           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                            {Object.values(filters).flat().length > 0
-                              ? 'Try adjusting your filters'
+                            {hasAnyFilter
+                              ? 'Try adjusting your search or filters'
                               : 'Add your first partner to get started'}
                           </Typography>
-                          {Object.values(filters).flat().length === 0 && (
+                          {!hasAnyFilter && (
                             <Button variant="contained" startIcon={<AddIcon />} onClick={() => navigate('/partners/create')}>
                               Add Partner
                             </Button>
