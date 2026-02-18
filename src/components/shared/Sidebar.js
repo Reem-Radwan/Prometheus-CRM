@@ -1,446 +1,7 @@
-// import React from 'react';
-// import {
-//   Drawer,
-//   List,
-//   ListItem,
-//   ListItemButton,
-//   ListItemIcon,
-//   ListItemText,
-//   Box,
-//   IconButton,
-// } from '@mui/material';
-// import {
-//   People as PeopleIcon,
-//   Dashboard as DashboardIcon,
-//   Close as CloseIcon,
-// } from '@mui/icons-material';
-// import { useNavigate, useLocation } from 'react-router-dom';
-
-// const drawerWidth = 260;
-
-// const menuItems = [
-//   {
-//     text: 'Dashboard',
-//     icon: <DashboardIcon />,
-//     path: '/',
-//   },
-//   {
-//     text: 'Leads',
-//     icon: <PeopleIcon />,
-//     path: '/leads',
-//   },
-// ];
-
-// export default function Sidebar({ open, onClose }) {
-//   const navigate = useNavigate();
-//   const location = useLocation();
-
-//   const handleNavigation = (path) => {
-//     navigate(path);
-//     onClose();
-//   };
-
-//   const drawerContent = (
-//     <>
-//       {/* Close Button */}
-//       <Box
-//         sx={{
-//           display: 'flex',
-//           justifyContent: 'flex-end',
-//           p: 2,
-//           pb: 1,
-//         }}
-//       >
-//         <IconButton
-//           onClick={onClose}
-//           sx={{
-//             color: '#FFFFFF',
-//             backgroundColor: 'rgba(255, 255, 255, 0.1)',
-//             '&:hover': {
-//               backgroundColor: 'rgba(255, 255, 255, 0.2)',
-//             },
-//           }}
-//         >
-//           <CloseIcon />
-//         </IconButton>
-//       </Box>
-
-//       {/* Navigation Menu */}
-//       <List sx={{ px: 2.5, pt: 1 }}>
-//         {menuItems.map((item) => {
-//           const isActive =
-//             location.pathname === item.path ||
-//             (item.path !== '/' && location.pathname.startsWith(item.path));
-
-//           return (
-//             <ListItem key={item.text} disablePadding sx={{ mb: 1 }}>
-//               <ListItemButton
-//                 onClick={() => handleNavigation(item.path)}
-//                 sx={{
-//                   borderRadius: '12px',
-//                   py: 1.4,
-//                   px: 2.5,
-//                   backgroundColor: isActive
-//                     ? 'rgba(255, 255, 255, 0.15)'
-//                     : 'transparent',
-//                   backdropFilter: isActive ? 'blur(10px)' : 'none',
-//                   border: isActive
-//                     ? '1px solid rgba(255, 255, 255, 0.25)'
-//                     : '1px solid transparent',
-//                   boxShadow: isActive ? '0 4px 12px rgba(0, 0, 0, 0.15)' : 'none',
-//                   '&:hover': {
-//                     backgroundColor: isActive
-//                       ? 'rgba(255, 255, 255, 0.2)'
-//                       : 'rgba(255, 255, 255, 0.08)',
-//                     transform: 'translateX(4px)',
-//                   },
-//                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-//                 }}
-//               >
-//                 <ListItemIcon
-//                   sx={{
-//                     color: isActive ? '#FCD34D' : '#BFDBFE',
-//                     minWidth: 40,
-//                     '& .MuiSvgIcon-root': {
-//                       fontSize: 22,
-//                     },
-//                   }}
-//                 >
-//                   {item.icon}
-//                 </ListItemIcon>
-//                 <ListItemText
-//                   primary={item.text}
-//                   primaryTypographyProps={{
-//                     fontSize: '15px',
-//                     fontWeight: isActive ? 700 : 500,
-//                     letterSpacing: '-0.2px',
-//                     color: isActive ? '#FFFFFF' : '#DBEAFE',
-//                   }}
-//                 />
-//               </ListItemButton>
-//             </ListItem>
-//           );
-//         })}
-//       </List>
-
-//       {/* Bottom Space */}
-//       <Box sx={{ flexGrow: 1 }} />
-//     </>
-//   );
-
-//   return (
-//     <Drawer
-//       open={open}
-//       onClose={onClose}
-//       sx={{
-//         '& .MuiDrawer-paper': {
-//           width: drawerWidth,
-//           boxSizing: 'border-box',
-//           background: 'linear-gradient(180deg, #1E3A8A 0%, #1E40AF 50%, #2563EB 100%)',
-//           color: '#FFFFFF',
-//           borderRight: 'none',
-//           boxShadow: '4px 0 24px rgba(0, 0, 0, 0.12)',
-//           marginTop: '70px', // Account for header height
-//           height: 'calc(100vh - 70px)',
-//         },
-//       }}
-//     >
-//       {drawerContent}
-//     </Drawer>
-//   );
-// }
-
-
-
-
-
-
-// import React from 'react';
-// import {
-//   Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText,
-//   Box, IconButton, Typography, Divider, Chip, Avatar,
-// } from '@mui/material';
-// import {
-//   Dashboard as DashboardIcon,
-//   People as PeopleIcon,
-//   Handshake as HandshakeIcon,
-//   Campaign as CampaignIcon,
-//   LocationOn as LocationOnIcon,
-//   Groups as GroupsIcon,
-//   Close as CloseIcon,
-//   Shield as ShieldIcon,
-// } from '@mui/icons-material';
-// import { useNavigate, useLocation } from 'react-router-dom';
-// import { useAuth } from '../../contexts/AuthContext';
-
-// const drawerWidth = 264;
-
-// // ── Role display map ──────────────────────────────────────────────────────────
-// const ROLE_LABELS = {
-//   admin:             { label: 'Admin',            bg: 'rgba(254,226,226,0.9)', color: '#991B1B' },
-//   manager:           { label: 'Manager',          bg: 'rgba(219,234,254,0.9)', color: '#1D4ED8' },
-//   sales_rep:         { label: 'Sales Rep',        bg: 'rgba(220,252,231,0.9)', color: '#166534' },
-//   hr_manager:        { label: 'HR Manager',       bg: 'rgba(237,233,254,0.9)', color: '#6D28D9' },
-//   call_center_agent: { label: 'Call Center Agent',bg: 'rgba(254,243,199,0.9)', color: '#92400E' },
-// };
-
-// function getInitials(name = '') {
-//   return name.split(' ').map((w) => w[0]).join('').toUpperCase().substring(0, 2);
-// }
-
-// export default function Sidebar({ open, onClose }) {
-//   const navigate  = useNavigate();
-//   const location  = useLocation();
-//   const { user, access } = useAuth();
-
-//   // ── Build nav items — each one conditionally shown ───────────────────────
-//   // Rules come directly from API docs section 6:
-//   //   • Always show: Dashboard
-//   //   • Leads:     show if canAccessLeads
-//   //   • Partners:  show if canAccessPartners (= same as canAccessLeads)
-//   //   • Marketing: show if canManageConfig  (doc: "Hide Admin screens if can_manage_config=false")
-//   //   • Locations: show if canManageConfig  (doc: "Hide Admin screens if can_manage_config=false")
-//   //   • HR:        show if canAccessHR      (doc: "Hide HR module if dept not HR/Management/Operations")
-//   const navItems = [
-//     {
-//       text:     'Dashboard',
-//       icon:     <DashboardIcon />,
-//       path:     '/',
-//       show:     true,
-//     },
-//     {
-//       text:     'Leads',
-//       icon:     <PeopleIcon />,
-//       path:     '/leads',
-//       show:     !!access.canAccessLeads,
-//     },
-//     {
-//       text:     'Partners',
-//       icon:     <HandshakeIcon />,
-//       path:     '/partners',
-//       show:     !!access.canAccessPartners,
-//     },
-//     {
-//       text:     'Marketing',
-//       icon:     <CampaignIcon />,
-//       path:     '/marketing',
-//       show:     !!access.canAccessMarketing,
-//       badge:    'Admin',
-//     },
-//     {
-//       text:     'Locations',
-//       icon:     <LocationOnIcon />,
-//       path:     '/locations',
-//       show:     !!access.canAccessLocations,
-//       badge:    'Admin',
-//     },
-//     {
-//       text:     'HR',
-//       icon:     <GroupsIcon />,
-//       path:     '/hr',
-//       show:     !!access.canAccessHR,
-//     },
-//   ].filter((item) => item.show);
-
-//   const handleNav = (path) => { navigate(path); onClose(); };
-
-//   const roleStyle = ROLE_LABELS[user?.role] || { label: user?.role || 'User', bg: 'rgba(243,244,246,0.9)', color: '#374151' };
-
-//   return (
-//     <Drawer
-//       open={open}
-//       onClose={onClose}
-//       sx={{
-//         '& .MuiDrawer-paper': {
-//           width: drawerWidth,
-//           boxSizing: 'border-box',
-//           background: 'linear-gradient(180deg, #1E3A8A 0%, #1E40AF 55%, #2563EB 100%)',
-//           color: '#FFFFFF',
-//           borderRight: 'none',
-//           boxShadow: '6px 0 28px rgba(0,0,0,0.15)',
-//           marginTop: '70px',
-//           height: 'calc(100vh - 70px)',
-//           overflowX: 'hidden',
-//         },
-//       }}
-//     >
-//       {/* ── Close ───────────────────────────────────────────────────────── */}
-//       <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2, pb: 1.5 }}>
-//         <IconButton
-//           onClick={onClose}
-//           size="small"
-//           sx={{
-//             color: '#FFFFFF',
-//             backgroundColor: 'rgba(255,255,255,0.12)',
-//             '&:hover': { backgroundColor: 'rgba(255,255,255,0.22)' },
-//             borderRadius: '8px',
-//             p: 0.75,
-//           }}
-//         >
-//           <CloseIcon fontSize="small" />
-//         </IconButton>
-//       </Box>
-
-//       {/* ── User card ────────────────────────────────────────────────────── */}
-//       {user && (
-//         <Box sx={{ px: 2.5, pb: 3 }}>
-//           <Box
-//             sx={{
-//               p: 2,
-//               borderRadius: '14px',
-//               backgroundColor: 'rgba(255,255,255,0.1)',
-//               border: '1px solid rgba(255,255,255,0.15)',
-//               backdropFilter: 'blur(8px)',
-//               display: 'flex',
-//               alignItems: 'center',
-//               gap: 1.5,
-//             }}
-//           >
-//             <Avatar
-//               sx={{
-//                 width: 38, height: 38,
-//                 fontSize: 14, fontWeight: 800,
-//                 background: 'linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.15) 100%)',
-//                 border: '1.5px solid rgba(255,255,255,0.4)',
-//                 flexShrink: 0,
-//               }}
-//             >
-//               {getInitials(user.full_name)}
-//             </Avatar>
-//             <Box sx={{ minWidth: 0 }}>
-//               <Typography
-//                 variant="body2"
-//                 fontWeight={700}
-//                 sx={{ color: '#FFFFFF', lineHeight: 1.2, mb: 0.5 }}
-//                 noWrap
-//               >
-//                 {user.full_name}
-//               </Typography>
-//               <Chip
-//                 label={roleStyle.label}
-//                 size="small"
-//                 sx={{
-//                   height: 18,
-//                   fontSize: '10px',
-//                   fontWeight: 700,
-//                   backgroundColor: roleStyle.bg,
-//                   color: roleStyle.color,
-//                   border: 'none',
-//                   '& .MuiChip-label': { px: 1 },
-//                 }}
-//               />
-//             </Box>
-//           </Box>
-//         </Box>
-//       )}
-
-//       {/* ── Nav label ────────────────────────────────────────────────────── */}
-//       <Box sx={{ px: 3, pb: 1.5 }}>
-//         <Typography
-//           variant="caption"
-//           sx={{
-//             color: 'rgba(255,255,255,0.38)',
-//             fontSize: '10px',
-//             fontWeight: 700,
-//             letterSpacing: '1.5px',
-//             textTransform: 'uppercase',
-//           }}
-//         >
-//           Navigation
-//         </Typography>
-//       </Box>
-
-//       {/* ── Nav items ────────────────────────────────────────────────────── */}
-//       <List sx={{ px: 2, pt: 0, flex: 1 }}>
-//         {navItems.map((item) => {
-//           const isActive =
-//             location.pathname === item.path ||
-//             (item.path !== '/' && location.pathname.startsWith(item.path));
-
-//           return (
-//             <ListItem key={item.text} disablePadding sx={{ mb: 0.75 }}>
-//               <ListItemButton
-//                 onClick={() => handleNav(item.path)}
-//                 sx={{
-//                   borderRadius: '12px',
-//                   py: 1.35,
-//                   px: 2,
-//                   backgroundColor:  isActive ? 'rgba(255,255,255,0.16)' : 'transparent',
-//                   backdropFilter:   isActive ? 'blur(10px)' : 'none',
-//                   border:           isActive ? '1px solid rgba(255,255,255,0.26)' : '1px solid transparent',
-//                   boxShadow:        isActive ? '0 4px 12px rgba(0,0,0,0.18)' : 'none',
-//                   '&:hover': {
-//                     backgroundColor: isActive
-//                       ? 'rgba(255,255,255,0.22)'
-//                       : 'rgba(255,255,255,0.09)',
-//                     transform: 'translateX(3px)',
-//                   },
-//                   transition: 'all 0.25s cubic-bezier(0.4,0,0.2,1)',
-//                 }}
-//               >
-//                 <ListItemIcon
-//                   sx={{
-//                     color: isActive ? '#FCD34D' : '#BFDBFE',
-//                     minWidth: 38,
-//                     '& .MuiSvgIcon-root': { fontSize: 21 },
-//                   }}
-//                 >
-//                   {item.icon}
-//                 </ListItemIcon>
-
-//                 <ListItemText
-//                   primary={item.text}
-//                   primaryTypographyProps={{
-//                     fontSize: '14.5px',
-//                     fontWeight: isActive ? 700 : 500,
-//                     color: isActive ? '#FFFFFF' : '#DBEAFE',
-//                     letterSpacing: '-0.2px',
-//                   }}
-//                 />
-
-//                 {item.badge && (
-//                   <Chip
-//                     label={item.badge}
-//                     size="small"
-//                     sx={{
-//                       height: 16,
-//                       fontSize: '9px',
-//                       fontWeight: 700,
-//                       letterSpacing: '0.5px',
-//                       backgroundColor: 'rgba(252,211,77,0.2)',
-//                       color: '#FCD34D',
-//                       border: '1px solid rgba(252,211,77,0.35)',
-//                       '& .MuiChip-label': { px: 0.75 },
-//                     }}
-//                   />
-//                 )}
-//               </ListItemButton>
-//             </ListItem>
-//           );
-//         })}
-//       </List>
-
-//       {/* ── Footer ───────────────────────────────────────────────────────── */}
-//       <Box sx={{ px: 3, pb: 3, mt: 'auto' }}>
-//         <Divider sx={{ borderColor: 'rgba(255,255,255,0.1)', mb: 2 }} />
-//         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-//           <ShieldIcon sx={{ fontSize: 12, color: 'rgba(255,255,255,0.28)' }} />
-//           <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.28)', fontSize: '10px' }}>
-//             {navItems.length - 1} module{navItems.length - 1 !== 1 ? 's' : ''} accessible
-//           </Typography>
-//         </Box>
-//         <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.18)', fontSize: '10px' }}>
-//           Prometheus CRM · v1.0
-//         </Typography>
-//       </Box>
-//     </Drawer>
-//   );
-// }
-
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText,
-  Box, IconButton, Typography,
+  Box, IconButton, Typography, Collapse,
 } from '@mui/material';
 import {
   Dashboard as DashboardIcon,
@@ -450,69 +11,166 @@ import {
   LocationOn as LocationOnIcon,
   Groups as GroupsIcon,
   Close as CloseIcon,
+  Business as BusinessIcon,
   Dns as DnsIcon,
+  ExpandLess as ExpandLessIcon,
+  ExpandMore as ExpandMoreIcon,
+  Event as EventIcon,
+  Apartment as ApartmentIcon,
+  Construction as ConstructionIcon,
+  Circle as CircleIcon,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
 const drawerWidth = 264;
 
-
 export default function Sidebar({ open, onClose }) {
   const navigate  = useNavigate();
   const location  = useLocation();
   const { access } = useAuth();
 
-  const navItems = [
-    { text: 'Dashboard',   icon: <DashboardIcon />,  path: '/',             show: true },
-    { text: 'Leads',       icon: <PeopleIcon />,      path: '/leads',        show: !!access.canAccessLeads },
-    { text: 'Lead Sources',icon: <DnsIcon />,         path: '/lead-sources', show: !!access.canAccessMarketing },
-    { text: 'Partners',    icon: <HandshakeIcon />,   path: '/partners',     show: !!access.canAccessPartners },
-    { text: 'Marketing',   icon: <CampaignIcon />,    path: '/marketing',    show: !!access.canAccessMarketing },
-    { text: 'Locations',   icon: <LocationOnIcon />,  path: '/locations',    show: !!access.canAccessLocations },
-    { text: 'HR',          icon: <GroupsIcon />,      path: '/hr',           show: !!access.canAccessHR }
-  ].filter((i) => i.show);
+  // Track which parent sections are expanded
+  const [expanded, setExpanded] = useState({
+    leads: false,
+    marketing: false,
+    locations: false,
+    hr: false,
+  });
+
+  const toggleExpand = (key) => {
+    setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const isActive = (path) =>
+    location.pathname === path || (path !== '/' && location.pathname.startsWith(path));
+
+  const isParentActive = (paths) => paths.some((p) => isActive(p));
 
   const handleNav = (path) => { navigate(path); onClose(); };
 
-  const NavItem = ({ item }) => {
-    const isActive =
-      location.pathname === item.path ||
-      (item.path !== '/' && location.pathname.startsWith(item.path));
+  // Auto-expand parent if a child route is active
+  React.useEffect(() => {
+    if (isParentActive(['/leads', '/lead-sources'])) setExpanded((p) => ({ ...p, leads: true }));
+    if (isParentActive(['/marketing'])) setExpanded((p) => ({ ...p, marketing: true }));
+    if (isParentActive(['/locations'])) setExpanded((p) => ({ ...p, locations: true }));
+    if (isParentActive(['/hr'])) setExpanded((p) => ({ ...p, hr: true }));
+  }, [location.pathname]); // eslint-disable-line
 
+  // ── Shared style helpers ────────────────────────────────────────────────────
+
+  const parentBtnSx = (active) => ({
+    borderRadius: '12px',
+    py: 1.35,
+    px: 2,
+    backgroundColor:  active ? 'rgba(255,255,255,0.16)' : 'transparent',
+    backdropFilter:   active ? 'blur(10px)' : 'none',
+    border:           active ? '1px solid rgba(255,255,255,0.26)' : '1px solid transparent',
+    boxShadow:        active ? '0 4px 12px rgba(0,0,0,0.18)' : 'none',
+    '&:hover': {
+      backgroundColor: active ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.09)',
+      transform: 'translateX(3px)',
+    },
+    transition: 'all 0.25s cubic-bezier(0.4,0,0.2,1)',
+  });
+
+  const childBtnSx = (active) => ({
+    borderRadius: '10px',
+    py: 1,
+    pl: 3,
+    pr: 1.5,
+    backgroundColor:  active ? 'rgba(255,255,255,0.13)' : 'transparent',
+    border:           active ? '1px solid rgba(255,255,255,0.2)' : '1px solid transparent',
+    '&:hover': {
+      backgroundColor: active ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.07)',
+      transform: 'translateX(3px)',
+    },
+    transition: 'all 0.2s cubic-bezier(0.4,0,0.2,1)',
+  });
+
+  const iconSx = (active) => ({
+    color: active ? '#FCD34D' : '#BFDBFE',
+    minWidth: 38,
+    '& .MuiSvgIcon-root': { fontSize: 21 },
+  });
+
+  const childIconSx = (active) => ({
+    color: active ? '#FCD34D' : 'rgba(191,219,254,0.75)',
+    minWidth: 32,
+    '& .MuiSvgIcon-root': { fontSize: 16 },
+  });
+
+  const labelSx = (active) => ({
+    fontSize: '14.5px',
+    fontWeight: active ? 700 : 500,
+    color: active ? '#FFFFFF' : '#DBEAFE',
+    letterSpacing: '-0.2px',
+  });
+
+  const childLabelSx = (active) => ({
+    fontSize: '13.5px',
+    fontWeight: active ? 700 : 400,
+    color: active ? '#FFFFFF' : 'rgba(219,234,254,0.85)',
+    letterSpacing: '-0.1px',
+  });
+
+  // ── Render helpers ──────────────────────────────────────────────────────────
+
+  const SimpleItem = ({ text, icon, path }) => {
+    const active = isActive(path);
     return (
       <ListItem disablePadding sx={{ mb: 0.75 }}>
-        <ListItemButton
-          onClick={() => handleNav(item.path)}
-          sx={{
-            borderRadius: '12px',
-            py: 1.35,
-            px: 2,
-            backgroundColor:  isActive ? 'rgba(255,255,255,0.16)' : 'transparent',
-            backdropFilter:   isActive ? 'blur(10px)' : 'none',
-            border:           isActive ? '1px solid rgba(255,255,255,0.26)' : '1px solid transparent',
-            boxShadow:        isActive ? '0 4px 12px rgba(0,0,0,0.18)' : 'none',
-            '&:hover': {
-              backgroundColor: isActive ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.09)',
-              transform: 'translateX(3px)',
-            },
-            transition: 'all 0.25s cubic-bezier(0.4,0,0.2,1)',
-          }}
-        >
-          <ListItemIcon sx={{ color: isActive ? '#FCD34D' : '#BFDBFE', minWidth: 38, '& .MuiSvgIcon-root': { fontSize: 21 } }}>
-            {item.icon}
-          </ListItemIcon>
-          <ListItemText
-            primary={item.text}
-            primaryTypographyProps={{
-              fontSize: '14.5px',
-              fontWeight: isActive ? 700 : 500,
-              color: isActive ? '#FFFFFF' : '#DBEAFE',
-              letterSpacing: '-0.2px',
-            }}
-          />
+        <ListItemButton onClick={() => handleNav(path)} sx={parentBtnSx(active)}>
+          <ListItemIcon sx={iconSx(active)}>{icon}</ListItemIcon>
+          <ListItemText primary={text} primaryTypographyProps={labelSx(active)} />
         </ListItemButton>
       </ListItem>
+    );
+  };
+
+  const ChildItem = ({ text, icon, path }) => {
+    const active = isActive(path);
+    return (
+      <ListItem disablePadding sx={{ mb: 0.5 }}>
+        <ListItemButton onClick={() => handleNav(path)} sx={childBtnSx(active)}>
+          <ListItemIcon sx={childIconSx(active)}>
+            {icon || <CircleIcon sx={{ fontSize: '8px !important' }} />}
+          </ListItemIcon>
+          <ListItemText primary={text} primaryTypographyProps={childLabelSx(active)} />
+        </ListItemButton>
+      </ListItem>
+    );
+  };
+
+  const ParentItem = ({ text, icon, expandKey, childPaths, children, show = true }) => {
+    if (!show) return null;
+    const parentActive = isParentActive(childPaths) && !expanded[expandKey];
+    const isOpen = expanded[expandKey];
+
+    return (
+      <>
+        <ListItem disablePadding sx={{ mb: isOpen ? 0.25 : 0.75 }}>
+          <ListItemButton onClick={() => toggleExpand(expandKey)} sx={parentBtnSx(parentActive)}>
+            <ListItemIcon sx={iconSx(parentActive)}>{icon}</ListItemIcon>
+            <ListItemText primary={text} primaryTypographyProps={labelSx(parentActive)} />
+            {isOpen
+              ? <ExpandLessIcon sx={{ fontSize: 18, color: 'rgba(255,255,255,0.6)', flexShrink: 0 }} />
+              : <ExpandMoreIcon sx={{ fontSize: 18, color: 'rgba(255,255,255,0.4)', flexShrink: 0 }} />}
+          </ListItemButton>
+        </ListItem>
+        <Collapse in={isOpen} timeout={220} unmountOnExit>
+          <Box sx={{
+            ml: 1.5,
+            pl: 1.5,
+            mb: 0.75,
+            borderLeft: '1px solid rgba(255,255,255,0.15)',
+          }}>
+            <List disablePadding>
+              {children}
+            </List>
+          </Box>
+        </Collapse>
+      </>
     );
   };
 
@@ -531,6 +189,7 @@ export default function Sidebar({ open, onClose }) {
           marginTop: '70px',
           height: 'calc(100vh - 70px)',
           overflowX: 'hidden',
+          overflowY: 'auto',
           display: 'flex',
           flexDirection: 'column',
         },
@@ -553,14 +212,78 @@ export default function Sidebar({ open, onClose }) {
         </IconButton>
       </Box>
 
-      {/* Single nav section */}
+      {/* Menu label */}
       <Box sx={{ px: 3, pb: 1 }}>
         <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.38)', fontSize: '10px', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase' }}>
           Menu
         </Typography>
       </Box>
-      <List sx={{ px: 2, pt: 0 }}>
-        {navItems.map((item) => <NavItem key={item.text} item={item} />)}
+
+      <List sx={{ px: 2, pt: 0, pb: 3 }}>
+
+        {/* Dashboard */}
+        <SimpleItem text="Dashboard" icon={<DashboardIcon />} path="/" />
+
+        {/* Leads (expandable) */}
+        {!!access.canAccessLeads && (
+          <ParentItem
+            text="Leads"
+            icon={<PeopleIcon />}
+            expandKey="leads"
+            childPaths={['/leads', '/lead-sources']}
+          >
+            <ChildItem text="All Leads" path="/leads" />
+            {!!access.canAccessMarketing && (
+              <ChildItem text="Lead Sources" icon={<DnsIcon />} path="/lead-sources" />
+            )}
+          </ParentItem>
+        )}
+
+        {/* Partners */}
+        {!!access.canAccessPartners && (
+          <SimpleItem text="Partners" icon={<HandshakeIcon />} path="/partners" />
+        )}
+
+        {/* Marketing (expandable) */}
+        {!!access.canAccessMarketing && (
+          <ParentItem
+            text="Marketing"
+            icon={<CampaignIcon />}
+            expandKey="marketing"
+            childPaths={['/marketing']}
+          >
+            <ChildItem text="Campaigns" icon={<CampaignIcon />} path="/marketing?tab=campaigns" />
+            <ChildItem text="Events" icon={<EventIcon />} path="/marketing?tab=events" />
+          </ParentItem>
+        )}
+
+        {/* Locations (expandable) */}
+        {!!access.canAccessLocations && (
+          <ParentItem
+            text="Locations"
+            icon={<LocationOnIcon />}
+            expandKey="locations"
+            childPaths={['/locations']}
+          >
+            <ChildItem text="Branches" icon={<ApartmentIcon />} path="/locations?tab=branches" />
+            <ChildItem text="Project Sites" icon={<ConstructionIcon />} path="/locations?tab=sites" />
+          </ParentItem>
+        )}
+
+        {/* HR (expandable) */}
+        {!!access.canAccessHR && (
+          <ParentItem
+            text="HR"
+            icon={<GroupsIcon />}
+            expandKey="hr"
+            childPaths={['/hr']}
+          >
+            <ChildItem text="Employees" icon={<PeopleIcon />} path="/hr?tab=employees" />
+            <ChildItem text="Sales Teams" icon={<GroupsIcon />} path="/hr?tab=teams" />
+            <ChildItem text="Departments" icon={<BusinessIcon />} path="/hr?tab=departments" />
+          </ParentItem>
+        )}
+
       </List>
     </Drawer>
   );
