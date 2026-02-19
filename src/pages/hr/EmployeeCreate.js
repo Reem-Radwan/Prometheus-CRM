@@ -77,7 +77,8 @@ export default function EmployeeCreate() {
           { label: 'HR', href: '/hr' },
           { label: 'New Employee', active: true },
         ]}
-        compact={true}
+        compact
+        maxWidth="720px"
       />
 
       <Card sx={{ maxWidth: '720px', mx: 'auto' }}>
@@ -151,7 +152,7 @@ export default function EmployeeCreate() {
               </Button>
               <Button type="submit" variant="contained" size="large" disabled={isSubmitting}
                 sx={{ minWidth: '160px', boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.4)' }}>
-                {isSubmitting ? 'Adding...' : 'Add Employee'}
+                {isSubmitting ? 'Adding...' : 'Create Employee'}
               </Button>
             </Box>
           </form>

@@ -73,7 +73,8 @@ export default function TeamEdit() {
           { label: 'HR', href: '/hr' },
           { label: 'Edit Team', active: true },
         ]}
-        compact={true}
+        compact
+        maxWidth="720px"
       />
 
       <Card sx={{ maxWidth: '720px', mx: 'auto' }}>

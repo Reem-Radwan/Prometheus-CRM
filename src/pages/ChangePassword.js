@@ -19,8 +19,6 @@ import {
   CheckCircle as CheckCircleIcon,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { AuthService } from '../data/authService';
 
 /**
  * Password strength checker
@@ -46,18 +44,15 @@ function getPasswordStrength(password) {
 
 export default function ChangePassword() {
   const navigate = useNavigate();
-  const { user } = useAuth();
 
-  const [currentPassword, setCurrentPassword]   = useState('');
-  const [newPassword, setNewPassword]             = useState('');
-  const [confirmPassword, setConfirmPassword]     = useState('');
+  const [newPassword, setNewPassword]         = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [showCurrent, setShowCurrent]   = useState(false);
-  const [showNew, setShowNew]           = useState(false);
-  const [showConfirm, setShowConfirm]   = useState(false);
+  const [showNew, setShowNew]         = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  const [error, setError]     = useState('');
-  const [success, setSuccess] = useState(false);
+  const [error, setError]       = useState('');
+  const [success, setSuccess]   = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const strength = getPasswordStrength(newPassword);
@@ -66,8 +61,7 @@ export default function ChangePassword() {
     e.preventDefault();
     setError('');
 
-    // — Validation —
-    if (!currentPassword || !newPassword || !confirmPassword) {
+    if (!newPassword || !confirmPassword) {
       setError('Please fill in all fields.');
       return;
     }
@@ -79,28 +73,14 @@ export default function ChangePassword() {
       setError('New password must be at least 6 characters.');
       return;
     }
-    if (newPassword === currentPassword) {
-      setError('New password must be different from your current password.');
-      return;
-    }
 
     setIsLoading(true);
 
     try {
-      // Verify current password by re-authenticating against the mock service
-      await AuthService.login(user?.username, currentPassword);
-
-      /**
-       * In a real app you would call something like:
-       *   await AuthService.changePassword(currentPassword, newPassword);
-       * 
-       * For this mock we just simulate a brief delay and show success.
-       */
       await new Promise((resolve) => setTimeout(resolve, 800));
-
       setSuccess(true);
     } catch (err) {
-      setError('Current password is incorrect.');
+      setError('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -183,19 +163,19 @@ export default function ChangePassword() {
   return (
     <Box
       sx={{
-        minHeight: '100vh',
+        minHeight: 'auto',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         backgroundColor: '#F8FAFC',
-        p: 3,
+        p: 1,
       }}
     >
       <Box sx={{ width: '100%', maxWidth: 460 }}>
         <Card
           sx={{
             width: '100%',
-            p: { xs: 3, sm: 5 },
+            p: { xs: 2, sm: 3 },
             borderRadius: 4,
             boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
             background: 'rgba(255,255,255,0.98)',
@@ -219,7 +199,7 @@ export default function ChangePassword() {
           </Button>
 
           {/* Header */}
-          <Box textAlign="center" mb={4}>
+          <Box textAlign="center" mb={2}>
             <Box
               sx={{
                 width: 64,
@@ -264,31 +244,6 @@ export default function ChangePassword() {
           {/* Form */}
           <form onSubmit={handleSubmit}>
             <Box display="flex" flexDirection="column" gap={3}>
-
-              {/* CURRENT PASSWORD */}
-              <TextField
-                fullWidth
-                label="Current Password"
-                type={showCurrent ? 'text' : 'password'}
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                placeholder="Enter your current password"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LockIcon color="primary" />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={() => setShowCurrent(!showCurrent)}>
-                        {showCurrent ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3 } }}
-              />
 
               {/* NEW PASSWORD */}
               <Box>

@@ -1,4 +1,3 @@
-// ─── TeamCreate.jsx ───────────────────────────────────────────────────────────
 import React from 'react';
 import {
   Box, Card, CardContent, Typography, TextField,
@@ -41,21 +40,22 @@ export default function TeamCreate() {
       showSuccessToast('Team created successfully!');
       setTimeout(() => navigate('/hr?tab=teams'), 1500);
     } catch (err) {
-      setSubmitError('Failed to create team. Please try again.');
+      setSubmitError('Failed to create sales team. Please try again.');
     }
   };
 
   return (
     <Box>
       <PageHeader
-        title="New Team"
-        subtitle="Create a new sales or operations team"
+        title="New Sales Team"
+        subtitle="Create a new sales team"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'HR', href: '/hr' },
-          { label: 'New Team', active: true },
+          { label: 'New Sales Team', active: true },
         ]}
-        compact={true}
+        compact
+        maxWidth="720px"
       />
 
       <Card sx={{ maxWidth: '720px', mx: 'auto' }}>
@@ -64,7 +64,7 @@ export default function TeamCreate() {
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <Paper elevation={0} sx={{ p: 3, mb: 4, backgroundColor: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: '12px' }}>
-              <Typography variant="h3" sx={{ mb: 3, color: 'primary.main', fontWeight: 700 }}>👥 Team Details</Typography>
+              <Typography variant="h3" sx={{ mb: 3, color: 'primary.main', fontWeight: 700 }}>👥 Sales Team Details</Typography>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={8}>
                   <Controller name="name" control={control} render={({ field }) => (
@@ -108,7 +108,7 @@ export default function TeamCreate() {
               <Button variant="outlined" size="large" onClick={() => navigate('/hr?tab=teams')} disabled={isSubmitting} sx={{ minWidth: '120px' }}>Cancel</Button>
               <Button type="submit" variant="contained" size="large" disabled={isSubmitting}
                 sx={{ minWidth: '150px', boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.4)' }}>
-                {isSubmitting ? 'Creating...' : 'Create Team'}
+                {isSubmitting ? 'Creating...' : 'Create Sales Team'}
               </Button>
             </Box>
           </form>

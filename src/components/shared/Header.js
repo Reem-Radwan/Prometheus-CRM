@@ -8,8 +8,6 @@ import {
   Menu,
   MenuItem,
   Divider,
-  ListItemIcon,
-  ListItemText,
   Chip,
   Fade,
 } from '@mui/material';
@@ -357,35 +355,31 @@ export default function Header({ onMenuClick }) {
           sx={{
             py: 1.5,
             px: 2.5,
+            justifyContent: 'center',
+            gap: 0.5,
             '&:hover': { backgroundColor: 'rgba(37, 99, 235, 0.06)' },
             transition: 'all 0.2s ease',
           }}
         >
-          <ListItemIcon>
-            <LockResetIcon fontSize="small" sx={{ color: '#2563EB' }} />
-          </ListItemIcon>
-          <ListItemText>
-            <Typography fontWeight={600} sx={{ color: '#1E3A8A' }}>Change Password</Typography>
-          </ListItemText>
+          <LockResetIcon fontSize="small" sx={{ color: '#2563EB' }} />
+          <Typography fontWeight={600} sx={{ color: '#1E3A8A' }}>Change Password</Typography>
         </MenuItem>
 
         <Divider />
 
-        <MenuItem 
+        <MenuItem
           onClick={handleLogoutClick}
           sx={{
             py: 1.5,
             px: 2.5,
+            justifyContent: 'center',
+            gap: 0.5,
             '&:hover': { backgroundColor: 'rgba(239, 68, 68, 0.08)' },
             transition: 'all 0.2s ease',
           }}
         >
-          <ListItemIcon>
-            <LogoutIcon fontSize="small" sx={{ color: '#EF4444' }} />
-          </ListItemIcon>
-          <ListItemText>
-            <Typography color="error" fontWeight={600}>Logout</Typography>
-          </ListItemText>
+          <LogoutIcon fontSize="small" sx={{ color: '#EF4444' }} />
+          <Typography color="error" fontWeight={600}>Logout</Typography>
         </MenuItem>
       </Menu>
     </Box>

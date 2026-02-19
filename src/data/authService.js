@@ -1,18 +1,3 @@
-// ===================================================================
-// authService.js - UPDATED TO MATCH API DOCUMENTATION
-// Mock Authentication Service that mirrors Django Backend API
-// ===================================================================
-
-/**
- * Mock Users Database
- * Matches the structure returned by GET /api/me/
- * 
- * API Response Structure:
- * {
- *   id, username, full_name, email, department, department_name,
- *   phone, national_id, is_active, role, permissions
- * }
- */
 const MOCK_USERS = {
   'ahmed': {
     id: 1,

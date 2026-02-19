@@ -74,6 +74,7 @@ export default function LeadSourceCreate() {
           { label: 'Add Source',   active: true },
         ]}
         compact
+        maxWidth="700px"
       />
 
       <Card sx={{ maxWidth: '700px', mx: 'auto' }}>

@@ -8,7 +8,8 @@ export default function PageHeader({
   subtitle, 
   breadcrumbs = [], 
   actions,
-  compact = false
+  compact = false,
+  maxWidth = '700px',   // ← matches the form below it; ignored when compact=false
 }) {
   const navigate = useNavigate();
 
@@ -23,7 +24,6 @@ export default function PageHeader({
         boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
       }}
     >
-      {/* Breadcrumbs */}
       {breadcrumbs.length > 0 && (
         <Breadcrumbs 
           separator={<NavigateNextIcon fontSize="small" />}
@@ -38,9 +38,7 @@ export default function PageHeader({
                 cursor: crumb.href ? 'pointer' : 'default',
                 fontWeight: crumb.active ? 600 : 400,
                 fontSize: '14px',
-                '&:hover': {
-                  color: 'primary.main',
-                }
+                '&:hover': { color: 'primary.main' },
               }}
               onClick={() => crumb.href && navigate(crumb.href)}
             >
@@ -50,7 +48,6 @@ export default function PageHeader({
         </Breadcrumbs>
       )}
 
-      {/* Header with Title and Actions */}
       <Box sx={{ 
         display: 'flex', 
         justifyContent: 'space-between', 
@@ -74,25 +71,15 @@ export default function PageHeader({
           {subtitle && (
             <Typography 
               variant="subtitle1" 
-              sx={{ 
-                color: 'text.secondary',
-                fontSize: '15px',
-                maxWidth: '600px',
-              }}
+              sx={{ color: 'text.secondary', fontSize: '15px', maxWidth: '600px' }}
             >
               {subtitle}
             </Typography>
           )}
         </Box>
         
-        {/* Action Buttons */}
         {actions && (
-          <Box sx={{ 
-            display: 'flex', 
-            gap: 2,
-            flexShrink: 0,
-            width: { xs: '100%', sm: 'auto' },
-          }}>
+          <Box sx={{ display: 'flex', gap: 2, flexShrink: 0, width: { xs: '100%', sm: 'auto' } }}>
             {actions}
           </Box>
         )}
@@ -100,15 +87,13 @@ export default function PageHeader({
     </Box>
   );
 
-  // If compact, wrap in container with same width as form (1000px)
   if (compact) {
     return (
-      <Box sx={{ maxWidth: '1000px', mx: 'auto', width: '100%' }}>
+      <Box sx={{ maxWidth, mx: 'auto', width: '100%' }}>
         {headerContent}
       </Box>
     );
   }
 
-  // Otherwise, return header content directly (full width)
   return headerContent;
 }

@@ -4,7 +4,6 @@ import {
   Button, Grid, Alert, Paper, FormControl, InputLabel,
   Select, FormHelperText,
 } from '@mui/material';
-import { Save as SaveIcon } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DataService } from '../../data/mod1dataService';
 import PageHeader from '../../components/shared/PageHeader';
@@ -24,7 +23,6 @@ export default function LeadSourceEdit() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [sourceData, setSourceData]   = useState(null);
 
-  // Load existing source
   useEffect(() => {
     const source = DataService.getLeadSourceById(Number(id));
     if (!source) {
@@ -95,6 +93,7 @@ export default function LeadSourceEdit() {
           { label: 'Edit Source',  active: true },
         ]}
         compact
+        maxWidth="700px"
       />
 
       <Card sx={{ maxWidth: '700px', mx: 'auto' }}>
@@ -154,7 +153,6 @@ export default function LeadSourceEdit() {
                 Cancel
               </Button>
               <Button type="submit" variant="contained" size="large" disabled={isSubmitting}
-                startIcon={<SaveIcon />}
                 sx={{ minWidth: '140px', boxShadow: '0 4px 6px -1px rgba(59,130,246,0.4)',
                   '&:hover': { transform: 'translateY(-1px)' }, transition: 'all 0.2s ease' }}>
                 {isSubmitting ? 'Updating...' : 'Update Source'}

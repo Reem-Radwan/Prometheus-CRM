@@ -100,7 +100,8 @@ export default function EmployeeEdit() {
           { label: 'HR', href: '/hr' },
           { label: 'Edit Employee', active: true },
         ]}
-        compact={true}
+        compact
+        maxWidth="720px"
       />
 
       <Card sx={{ maxWidth: '720px', mx: 'auto' }}>
